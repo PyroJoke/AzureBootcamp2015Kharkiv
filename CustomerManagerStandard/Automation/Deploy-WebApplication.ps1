@@ -1,6 +1,6 @@
 ﻿Param(
     [string][Parameter(Mandatory=$true)] $WebSiteName,
-    [string][Parameter(Mandatory=$true)] $ProjectFile,
+    [string][ValidateScript({Test-Path $_ -PathType 'Leaf'})] [Parameter(Mandatory=$true)] $ProjectFile,
     #[string] $ResourceGroupName = $WebSiteName,
     #[string] $StorageAccountName = $ResourceGroupName.ToLowerInvariant() + "storage",
     #[string] $ResourceGroupLocation = "West Europe",
@@ -10,7 +10,6 @@
     [string] $AzCopyPath = '.\Tools\AzCopy.exe'
 )
 
-$VerbosePreference = "Continue";
 $ErrorActionPreference = "Stop";
 
 [Xml]$envXml = Get-Content $PSScriptRoot\website-publish-environment.xml;
@@ -49,11 +48,12 @@ $dropLocationSasToken = ConvertTo-SecureString $dropLocationSasToken -AsPlainTex
 $SqlServerAdminPassword = ConvertTo-SecureString $sqlServerAdminPassword -AsPlainText -Force;
 
 Switch-AzureMode AzureResourceManager;
+
+$VerbosePreference = "Continue";
 $fqServerDomainName = (Get-AzureResource -Name $sqlServerName `
 										 -ResourceGroupName $ResourceGroupName `
 										 -ResourceType Microsoft.Sql/servers `
 										 -ApiVersion 2014-04-01).Properties.fullyQualifiedDomainName;
-
 New-AzureResourceGroupDeployment -ResourceGroupName $ResourceGroupName `
                        -TemplateFile $TemplateFile `
                        -dropLocation $dropLocation `

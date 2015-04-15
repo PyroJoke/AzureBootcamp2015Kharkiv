@@ -76,15 +76,7 @@ namespace CustomerManager.Controllers
         [HttpPost]
         public SaveResult SaveChanges(JObject saveBundle)
         {
-            try
-            {
-                return _contextProvider.SaveChanges(saveBundle);
-            }
-            catch (Exception exp)
-            {                
-                throw;
-            }
-
+            return _contextProvider.SaveChanges(saveBundle);   
         }
 
     }
