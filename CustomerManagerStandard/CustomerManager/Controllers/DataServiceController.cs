@@ -7,11 +7,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using NLog;
 
 namespace CustomerManager.Controllers
 {
     public class DataServiceController : ApiController
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         CustomerRepository _Repository;
 
         public DataServiceController()
@@ -58,6 +61,7 @@ namespace CustomerManager.Controllers
         public HttpResponseMessage Login([FromBody]UserLogin userLogin)
         {
             //Simulated login
+            logger.Info("Login detected");
             return Request.CreateResponse(HttpStatusCode.OK, new { status = true});
         }
 
