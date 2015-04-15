@@ -5,11 +5,15 @@
     [string] $StorageAccountName = $ResourceGroupName.ToLowerInvariant() + "storage",
     [string] $ResourceGroupLocation = "West Europe",
     [string] $StorageContainerName = $WebSiteName.ToLowerInvariant(),
-    [string] $TemplateFile = '.\Templates\WebSiteDeploySQL.json',
-    [string] $TemplateParametersFile = '.\Templates\WebSiteDeploySQL.param.dev.json',
+    [string] $TemplateFile = '.\Templates\Environment.json',
     [string] $LocalStorageDropPath = '.\StorageDrop',
     [string] $AzCopyPath = '.\Tools\AzCopy.exe'
 )
+
+<#
+    Since we rely on environment creation script, read most of the 
+    info from settings file created by the script.
+#>
 
 $VerbosePreference = "Continue";
 $ErrorActionPreference = "Stop";
@@ -56,14 +60,14 @@ $dropLocationSasToken = ConvertTo-SecureString $dropLocationSasToken -AsPlainTex
 $sqlServerName = "dmresource1server"
 $sqlDbName = "dmres1"
 $sqlServerAdminLogin = "userDB"
-$plainTextPassword = "P{0}!" -f ([System.Guid]::NewGuid()).Guid.Replace("-", "").Substring(0, 10);
+#$plainTextPassword = "P{0}!" -f ([System.Guid]::NewGuid()).Guid.Replace("-", "").Substring(0, 10);
+$plainTextPassword = "Qwerty11"
 $sqlServerAdminPassword = ConvertTo-SecureString $plainTextPassword -AsPlainText -Force
 
 Switch-AzureMode AzureResourceManager;
-New-AzureResourceGroup -Name $ResourceGroupName `
+New-AzureResourceGroupDeployment -Name $ResourceGroupName `
                        -Location $ResourceGroupLocation `
                        -TemplateFile $TemplateFile `
-                       -TemplateParameterFile $TemplateParametersFile `
                        -dropLocation $dropLocation `
                        -dropLocationSasToken $dropLocationSasToken `
                        -sqlServerName $sqlServerName `
@@ -73,7 +77,7 @@ New-AzureResourceGroup -Name $ResourceGroupName `
                        -sqlDbName $sqlDbName `
                        -webSiteName $webSiteName `
                        -webSiteLocation $ResourceGroupLocation `
-                       -webSiteHostingPlanName "Standard2instances" `
+                       -webSiteHostingPlanName "FreePlan" `
                        -webSiteHostingPlanSKU "Free" `
                        -webSitePackage "CustomerManager.zip" `
-                       -Force -Verbose
+                       -Force -Verbose;
