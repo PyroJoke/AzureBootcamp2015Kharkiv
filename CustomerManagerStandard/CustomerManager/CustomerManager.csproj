@@ -231,6 +231,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="server\initMongoDB.bat" />
     <Content Include="server\initMongoDB.sh" />
+    <None Include="Properties\PublishProfiles\WebDeployPackage.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
