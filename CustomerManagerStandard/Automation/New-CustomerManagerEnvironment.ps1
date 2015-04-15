@@ -18,7 +18,8 @@ $sqlServerAdminPassword = ConvertTo-SecureString $plainTextPassword -AsPlainText
 
 Switch-AzureMode AzureResourceManager;
 
-New-AzureResourceGroup -Name $ResourceGroupName `
+#Create azure resource group with storage, SQL server and SQL database
+$newResourceGroup = New-AzureResourceGroup -Name $ResourceGroupName `
                        -Location $ResourceGroupLocation `
                        -TemplateFile $TemplateFile `
                        -sqlServerName $sqlServerName `
@@ -28,3 +29,9 @@ New-AzureResourceGroup -Name $ResourceGroupName `
                        -sqlDbName $sqlDbName `
                        -storageAccountNameFromTemplate $StorageAccountName `
                        -Force -Verbose;
+
+#Create XML file with all required configuration for further website deployment
+[String]$template = Get-Content $PSScriptRoot\environment-info.tpl;
+$xml = $template -f $ResourceGroupName, $ResourceGroupLocation, $StorageAccountName, `
+					$sqlServerName, $sqlDbName, $sqlServerAdminLogin, $plainTextPassword;
+$xml | Out-File -Encoding utf8 -FilePath $PSScriptRoot\website-publish-environment.xml;

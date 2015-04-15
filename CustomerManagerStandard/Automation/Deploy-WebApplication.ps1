@@ -1,26 +1,29 @@
 ﻿Param(
     [string][Parameter(Mandatory=$true)] $WebSiteName,
     [string][Parameter(Mandatory=$true)] $ProjectFile,
-    [string] $ResourceGroupName = $WebSiteName,
-    [string] $StorageAccountName = $ResourceGroupName.ToLowerInvariant() + "storage",
-    [string] $ResourceGroupLocation = "West Europe",
+    #[string] $ResourceGroupName = $WebSiteName,
+    #[string] $StorageAccountName = $ResourceGroupName.ToLowerInvariant() + "storage",
+    #[string] $ResourceGroupLocation = "West Europe",
     [string] $StorageContainerName = $WebSiteName.ToLowerInvariant(),
-    [string] $TemplateFile = '.\Templates\Environment.json',
+    [string] $TemplateFile = '.\Templates\WebApp.json',
     [string] $LocalStorageDropPath = '.\StorageDrop',
     [string] $AzCopyPath = '.\Tools\AzCopy.exe'
 )
 
-<#
-    Since we rely on environment creation script, read most of the 
-    info from settings file created by the script.
-#>
-
 $VerbosePreference = "Continue";
 $ErrorActionPreference = "Stop";
 
+[Xml]$envXml = Get-Content $PSScriptRoot\website-publish-environment.xml;
+$ResourceGroupName = $envXml.resourceGroup.name;
+$ResourceGroupLocation = $envXml.resourceGroup.location;
+$StorageAccountName = $envXml.resourceGroup.storage.accountName;
+$SqlServerName = $envXml.resourceGroup.sqlAzure.databaseServerName;
+$SqlServerAdminLogin = $envXml.resourceGroup.sqlAzure.userName;
+$SqlServerAdminPassword = $envXml.resourceGroup.sqlAzure.password;
+$SqlDbName = $envXml.resourceGroup.sqlAzure.databaseName;
+
 $AzCopyPath = [System.IO.Path]::Combine($PSScriptRoot, $AzCopyPath);
 $TemplateFile = [System.IO.Path]::Combine($PSScriptRoot, $TemplateFile);
-$TemplateParametersFile = [System.IO.Path]::Combine($PSScriptRoot, $TemplateParametersFile);
 $LocalStorageDropPath = [System.IO.Path]::Combine($PSScriptRoot, $LocalStorageDropPath);
 
 #Build the application
@@ -34,19 +37,6 @@ $publishXmlFile = ".\WebDeployPackage.pubxml";
 
 Switch-AzureMode -Name AzureServiceManagement;
 
-#Create new Azure Storage if it does not exist
-if(!(Test-AzureName -Storage $StorageAccountName)) {
-    $storageAcct = New-AzureStorageAccount -StorageAccountName $StorageAccountName -Location $ResourceGroupLocation -Verbose;
-    if ($storageAcct)
-    {
-        Write-Verbose "[Finish] creating $Name storage account in $Location location"
-    }
-    else
-    {
-        throw "Failed to create a Windows Azure storage account. Failure in New-AzureStorage.ps1"
-    }
-}
-
 #Copy application package to the storage
 $storageAccountKey = (Get-AzureStorageKey -StorageAccountName $StorageAccountName).Primary
 $storageAccountContext = New-AzureStorageContext $StorageAccountName (Get-AzureStorageKey $StorageAccountName).Primary
@@ -56,22 +46,19 @@ $dropLocation = $storageAccountContext.BlobEndPoint + $StorageContainerName
 $dropLocationSasToken = New-AzureStorageContainerSASToken -Container $StorageContainerName -Context $storageAccountContext -Permission r 
 $dropLocationSasToken = ConvertTo-SecureString $dropLocationSasToken -AsPlainText -Force
 
-#Define sql server
-$sqlServerName = "dmresource1server"
-$sqlDbName = "dmres1"
-$sqlServerAdminLogin = "userDB"
-#$plainTextPassword = "P{0}!" -f ([System.Guid]::NewGuid()).Guid.Replace("-", "").Substring(0, 10);
-$plainTextPassword = "Qwerty11"
-$sqlServerAdminPassword = ConvertTo-SecureString $plainTextPassword -AsPlainText -Force
+$SqlServerAdminPassword = ConvertTo-SecureString $sqlServerAdminPassword -AsPlainText -Force;
 
 Switch-AzureMode AzureResourceManager;
-New-AzureResourceGroupDeployment -Name $ResourceGroupName `
-                       -Location $ResourceGroupLocation `
+$fqServerDomainName = (Get-AzureResource -Name $sqlServerName `
+										 -ResourceGroupName $ResourceGroupName `
+										 -ResourceType Microsoft.Sql/servers `
+										 -ApiVersion 2014-04-01).Properties.fullyQualifiedDomainName;
+
+New-AzureResourceGroupDeployment -ResourceGroupName $ResourceGroupName `
                        -TemplateFile $TemplateFile `
                        -dropLocation $dropLocation `
                        -dropLocationSasToken $dropLocationSasToken `
-                       -sqlServerName $sqlServerName `
-                       -sqlServerLocation $ResourceGroupLocation `
+                       -fqSqlServerName $fqServerDomainName `
                        -sqlServerAdminLogin $sqlServerAdminLogin `
                        -sqlServerAdminPassword $sqlServerAdminPassword `
                        -sqlDbName $sqlDbName `
@@ -80,4 +67,4 @@ New-AzureResourceGroupDeployment -Name $ResourceGroupName `
                        -webSiteHostingPlanName "FreePlan" `
                        -webSiteHostingPlanSKU "Free" `
                        -webSitePackage "CustomerManager.zip" `
-                       -Force -Verbose;
+					   -Verbose;

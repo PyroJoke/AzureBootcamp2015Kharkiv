@@ -43,7 +43,7 @@ namespace CustomerManager.Controllers
             int totalRecords;
             var custSummary = _Repository.GetCustomersSummary(out totalRecords);
             HttpContext.Current.Response.Headers.Add("X-InlineCount", totalRecords.ToString());
-            HttpContext.Current.Response.Headers.Add("X-Hardcoded-Version", "1");
+            HttpContext.Current.Response.Headers.Add("X-Hardcoded-Random-Number", "1");
             return Request.CreateResponse(HttpStatusCode.OK, custSummary);
         }
 

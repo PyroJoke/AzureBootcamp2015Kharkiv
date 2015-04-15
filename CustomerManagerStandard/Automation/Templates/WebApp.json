@@ -49,10 +49,7 @@
             ],
             "defaultValue": "0"
         },
-        "sqlServerName": {
-            "type": "string"
-        },
-        "sqlServerLocation": {
+        "fqSqlServerName": {
             "type": "string"
         },
         "sqlServerAdminLogin": {
@@ -63,71 +60,9 @@
         },
         "sqlDbName": {
             "type": "string"
-        },
-        "sqlDbCollation": {
-            "type": "string",
-            "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
-        },
-        "sqlDbEdition": {
-            "type": "string",
-            "defaultValue": "Web"
-        },
-        "sqlDbMaxSizeBytes": {
-            "type": "string",
-            "defaultValue": "1073741824"
-        },
-        "sqlDbServiceObjectiveId": {
-            "type": "string",
-            "defaultValue": "910b4fcb-8a29-4c3e-958f-f7ba794388b2"
         }
     },
     "resources": [
-        {
-            "apiVersion": "2014-04-01-preview",
-            "name": "[parameters('sqlServerName')]",
-            "type": "Microsoft.Sql/servers",
-            "location": "[parameters('sqlServerLocation')]",
-            "tags": {
-                "displayName": "SQLServer"
-            },
-            "properties": {
-                "administratorLogin": "[parameters('sqlServerAdminLogin')]",
-                "administratorLoginPassword": "[parameters('sqlServerAdminPassword')]"
-            },
-            "resources": [
-                {
-                    "apiVersion": "2014-04-01-preview",
-                    "name": "[parameters('sqlDbName')]",
-                    "type": "databases",
-                    "location": "[parameters('sqlServerLocation')]",
-                    "tags": {
-                        "displayName": "SQLDatabase"
-                    },
-                    "dependsOn": [
-                        "[concat('Microsoft.Sql/servers/', parameters('sqlServerName'))]"
-                    ],
-                    "properties": {
-                        "edition": "[parameters('sqlDbEdition')]",
-                        "collation": "[parameters('sqlDbCollation')]",
-                        "maxSizeBytes": "[parameters('sqlDbMaxSizeBytes')]",
-                        "requestedServiceObjectiveId": "[parameters('sqlDbServiceObjectiveId')]"
-                    }
-                },
-                {
-                    "apiVersion": "2014-04-01-preview",
-                    "name": "SQLServerFirewallRules",
-                    "type": "firewallrules",
-                    "location": "[parameters('sqlServerLocation')]",
-                    "dependsOn": [
-                        "[concat('Microsoft.Sql/servers/', parameters('sqlServerName'))]"
-                    ],
-                    "properties": {
-                        "endIpAddress": "0.0.0.0",
-                        "startIpAddress": "0.0.0.0"
-                    }
-                }
-            ]
-        },
         {
             "apiVersion": "2014-04-01-preview",
             "name": "[parameters('webSiteName')]",
@@ -155,7 +90,7 @@
                     "properties": {
                         "connectionStrings": [
                             {
-                                "ConnectionString": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', parameters('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]",
+                                "ConnectionString": "[concat('Data Source=tcp:', parameters('fqSqlServerName'), ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('fqSqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]",
                                 "Name": "CustomerManagerContext",
                                 "Type": 2
                             }
