@@ -61,7 +61,8 @@ namespace CustomerManager.Controllers
         public HttpResponseMessage Login([FromBody]UserLogin userLogin)
         {
             //Simulated login
-            logger.Info("Login detected");
+            logger.Info("Login detected, writing to NLog");
+            System.Diagnostics.Trace.TraceInformation("Login detected, writing to trace");
             return Request.CreateResponse(HttpStatusCode.OK, new { status = true});
         }
 
