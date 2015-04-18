@@ -61,6 +61,10 @@
             });
         };
 
+        factory.causeCpuLoad = function() {
+            return $http.post(serviceBase + 'CauseCpuLoad/');
+        };
+
         function extendCustomers(customers) {
             var custsLen = customers.length;
             //Iterate through customers

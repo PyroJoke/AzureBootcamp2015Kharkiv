@@ -1,9 +1,11 @@
 ﻿(function () {
 
-    var injectParams = [];
+    var injectParams = ['customersService'];
 
-    var AboutController = function () {
-
+    var AboutController = function (customersService) {
+        this.causeCpuLoad = function() {
+            customersService.causeCpuLoad();
+        };
     };
 
     AboutController.$inject = injectParams;

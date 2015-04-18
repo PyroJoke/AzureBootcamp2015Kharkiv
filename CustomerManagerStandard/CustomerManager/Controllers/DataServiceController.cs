@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using NLog;
+using System.Diagnostics;
 
 namespace CustomerManager.Controllers
 {
@@ -119,6 +120,20 @@ namespace CustomerManager.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, opStatus.ExceptionMessage);
             }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage CauseCpuLoad()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            while (watch.ElapsedMilliseconds < 2*60*1000)
+            {
+                
+            }
+            watch.Stop();
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }
