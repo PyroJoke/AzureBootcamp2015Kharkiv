@@ -32,7 +32,7 @@ New-AzureResourceGroup -Name $ResourceGroupName `
                        -webSiteName $webSiteName `
                        -webSiteLocation $ResourceGroupLocation `
                        -webSiteHostingPlanName "Standard2instances" `
-                       -webSiteHostingPlanSKU "Free" `
-					   -storageAccountNameFromTemplate $StorageAccountName `
+                       -webSiteHostingPlanSKU "Standard" `
+					             -storageAccountNameFromTemplate $StorageAccountName `
                        -Force `
-					   -Verbose;
+					             -Verbose;

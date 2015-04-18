@@ -127,7 +127,7 @@ namespace CustomerManager.Controllers
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
-            while (watch.ElapsedMilliseconds < 2*60*1000)
+            while (watch.ElapsedMilliseconds < 10*60*1000)
             {
                 
             }
