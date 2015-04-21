@@ -1,12 +1,12 @@
 Param(
     [string][Parameter(Mandatory=$true)] $WebSiteName,
-	[string][ValidateScript({Test-Path $_ -PathType 'Leaf'})] [Parameter(Mandatory=$true)] $ProjectFile,
-	[string] $ResourceGroupName = $WebSiteName,
-	[string] $StorageAccountName = $ResourceGroupName.ToLowerInvariant() + "storage",
+    [string][ValidateScript({Test-Path $_ -PathType 'Leaf'})] [Parameter(Mandatory=$true)] $ProjectFile,
+    [string] $ResourceGroupName = $WebSiteName,
+    [string] $StorageAccountName = $ResourceGroupName.ToLowerInvariant() + "storage",
     [string] $StorageContainerName = ("{0}-{1}" -f $WebSiteName.ToLowerInvariant(), (Get-Date -format "hh-mm-ss-dd-mm-yyyy")),
-	[string] $LocalStorageDropPath = '.\StorageDrop',
+    [string] $LocalStorageDropPath = '.\StorageDrop',
     [string] $AzCopyPath = '.\Tools\AzCopy.exe',
-	[string] $webSitePackage = "CustomerManager.zip",
+    [string] $webSitePackage = "CustomerManager.zip",
     [string] $TemplateFile = '.\Templates\PublishWebApp.json'
 )
 
@@ -17,6 +17,10 @@ $AzCopyPath = [System.IO.Path]::Combine($PSScriptRoot, $AzCopyPath);
 $TemplateFile = [System.IO.Path]::Combine($PSScriptRoot, $TemplateFile);
 $LocalStorageDropPath = [System.IO.Path]::Combine($PSScriptRoot, $LocalStorageDropPath);
 
+#Local Drop Cleanup
+Remove-Item ($LocalStorageDropPath + '\*');
+
+#Publish to Local Drop
 $publishXmlFile = ".\WebDeployPackage.pubxml";
 & "$env:windir\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" $ProjectFile `
     /p:VisualStudioVersion=12.0 `

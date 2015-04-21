@@ -18,8 +18,7 @@
             "type": "string",
             "metadata": {
                 "visualStudio.deployment": { "parameterUsedAs": { "value": "projectOutput" } }
-            },
-            "defaultValue": "WebApplication1/package.zip"
+            }
         },
         "webSiteName": {
             "type": "string"
