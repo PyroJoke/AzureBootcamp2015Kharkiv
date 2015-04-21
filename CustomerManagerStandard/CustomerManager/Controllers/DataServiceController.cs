@@ -44,11 +44,19 @@ namespace CustomerManager.Controllers
         [Queryable]
         public HttpResponseMessage CustomersSummary()
         {
-            int totalRecords;
-            var custSummary = _Repository.GetCustomersSummary(out totalRecords);
-            HttpContext.Current.Response.Headers.Add("X-InlineCount", totalRecords.ToString());
-            HttpContext.Current.Response.Headers.Add("X-Hardcoded-Random-Number", "1");
-            return Request.CreateResponse(HttpStatusCode.OK, custSummary);
+            try
+            {
+                int totalRecords;
+                var custSummary = _Repository.GetCustomersSummary(out totalRecords);
+                HttpContext.Current.Response.Headers.Add("X-InlineCount", totalRecords.ToString());
+                HttpContext.Current.Response.Headers.Add("X-Hardcoded-Random-Number", "1");
+                return Request.CreateResponse(HttpStatusCode.OK, custSummary);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(string.Format("Error getting CustomersSummary. Message: {0}", ex.Message), ex);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error occurred getting Customers Summary");
+            }
         }
 
         [HttpGet]
@@ -63,7 +71,7 @@ namespace CustomerManager.Controllers
         {
             //Simulated login
             logger.Info("Login detected, writing to NLog");
-            System.Diagnostics.Trace.TraceInformation("Login detected, writing to trace");
+            Trace.TraceInformation("Login detected, writing to trace");
             return Request.CreateResponse(HttpStatusCode.OK, new { status = true});
         }
 

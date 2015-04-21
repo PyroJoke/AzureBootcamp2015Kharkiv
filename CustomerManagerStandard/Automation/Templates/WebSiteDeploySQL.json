@@ -109,7 +109,21 @@
                         "maxSizeBytes": "[parameters('sqlDbMaxSizeBytes')]",
                         "requestedServiceObjectiveId": "[parameters('sqlDbServiceObjectiveId')]"
                     }
-                }
+                },      
+                {      
+                    "apiVersion": "2014-04-01-preview",        
+                    "name": "SQLServerFirewallRules",      
+                    "type": "firewallrules",       
+                    "location": "[parameters('sqlServerLocation')]",       
+                    "dependsOn": [     
+                        "[concat('Microsoft.Sql/servers/', parameters('sqlServerName'))]"      
+                    ],     
+                    "properties": {
+                        "name" : "access",
+                        "endIpAddress": "0.0.0.0",     
+                        "startIpAddress": "0.0.0.0"        
+                    }      
+                 }
             ]
         },
         {
