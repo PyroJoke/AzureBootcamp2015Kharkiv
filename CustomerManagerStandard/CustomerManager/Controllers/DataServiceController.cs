@@ -55,6 +55,7 @@ namespace CustomerManager.Controllers
             catch (Exception ex)
             {
                 logger.Error(string.Format("Error getting CustomersSummary. Message: {0}", ex.Message), ex);
+                Trace.TraceError(string.Format("Error getting CustomersSummary. Message: {0}", ex.Message));
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error occurred getting Customers Summary");
             }
         }
