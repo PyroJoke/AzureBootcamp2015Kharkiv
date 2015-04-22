@@ -60,7 +60,7 @@ $xml = [xml] (Get-Content $setParametersFilePath)
 $appNode = $xml.parameters.setParameter | where { $_.Name -eq "IIS Web Application Name" }
 $appNode.value = "Default Web Site"
 $connectionStringNode = $xml.parameters.setParameter | where { $_.Name -eq "CustomerManagerContext-Web.config Connection String" }
-$connectionStringNode.value = "Data Source=bootcampsql;Initial Catalog=bootcampdb;Integrated Security=True"
+$connectionStringNode.value = "Data Source=$SqlServerVMName;Initial Catalog=bootcampdb;Integrated Security=True"
 $xml.Save($setParametersFilePath)
 
 # Run MsDeploy and deploy web application to Azure VMs
