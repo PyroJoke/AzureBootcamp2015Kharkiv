@@ -1,4 +1,8 @@
 . $PSScriptRoot\Account.ps1
 
-$webSiteName = "CustomerManager"
-& $PSScriptRoot\New-Environment.ps1 -WebSiteName $webSiteName
+
+
+$webSiteName = "skrcmanager"
+$prefix = "skrcm"
+
+& $PSScriptRoot\New-Environment.ps1 -WebSiteName $webSiteName -Prefix $prefix

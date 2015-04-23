@@ -32,7 +32,7 @@ namespace CustomerManager.E2ETests
         public void CustomersViewByDefault()
         {
             IWebDriver ngDriver = new NgWebDriver(driver);
-            ngDriver.Navigate().GoToUrl("http://localhost:58000/");
+            ngDriver.Navigate().GoToUrl("http://skrcmanager.azurewebsites.net/");
 
             // Assert default view is 'customers'
             Assert.IsTrue(ngDriver.Url.EndsWith("#/customers"));

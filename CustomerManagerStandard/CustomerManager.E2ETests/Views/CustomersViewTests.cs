@@ -32,7 +32,7 @@ namespace CustomerManager.E2ETests
         public void CardViewByDefault()
         {
             IWebDriver ngDriver = new NgWebDriver(driver);
-            ngDriver.Navigate().GoToUrl("http://localhost:58000/#/customers");
+            ngDriver.Navigate().GoToUrl(Parameters.SiteUrl + "/#/customers");
 
             // Assert 'card view' is selected
             Assert.IsTrue(ngDriver.FindElement(By.ClassName("cardContainer")).Displayed);
@@ -43,7 +43,7 @@ namespace CustomerManager.E2ETests
         public void SwitchToListView()
         {
             IWebDriver ngDriver = new NgWebDriver(driver);
-            ngDriver.Navigate().GoToUrl("http://localhost:58000/#/customers");
+            ngDriver.Navigate().GoToUrl(Parameters.SiteUrl + "/#/customers");
 
             IWebElement listViewMenu = ngDriver.FindElement(By.XPath("//ul//li[contains(.,'List View')]"));
             Assert.IsFalse(listViewMenu.GetAttribute("class").Contains("active"));
@@ -59,7 +59,7 @@ namespace CustomerManager.E2ETests
         public void ShowTop10Customers()
         {
             IWebDriver ngDriver = new NgWebDriver(driver);
-            ngDriver.Navigate().GoToUrl("http://localhost:58000/#/customers");
+            ngDriver.Navigate().GoToUrl(Parameters.SiteUrl + "/#/customers");
 
             IWebElement cardElement = ngDriver.FindElement(By.ClassName("cardContainer"));
             var customers = cardElement.FindElements(NgBy.Repeater("customer in filteredCustomers"));
@@ -94,7 +94,7 @@ $httpBackend.whenGET('\/api/dataservice/customersSummary?$top=10&$skip=0').respo
                 );
 
             var ngDriver = new NgWebDriver(driver, mockModule);
-            ngDriver.Navigate().GoToUrl("http://localhost:58000/#/customers");
+            ngDriver.Navigate().GoToUrl(Parameters.SiteUrl + "/#/customers");
 
             var cardElement = ngDriver.FindElement(By.ClassName("cardContainer"));
             Assert.AreEqual(0, cardElement.FindElements(NgBy.Repeater("customer in filteredCustomers")).Count);
@@ -150,7 +150,7 @@ $httpBackend.whenGET('\/api/dataservice/customersSummary?$top=10&$skip=0').respo
                 );
 
             var ngDriver = new NgWebDriver(driver, mockModule);
-            ngDriver.Navigate().GoToUrl("http://localhost:58000/#/customers");
+            ngDriver.Navigate().GoToUrl(Parameters.SiteUrl + "/#/customers");
             
             var cardElement = ngDriver.FindElement(By.ClassName("cardContainer"));
 

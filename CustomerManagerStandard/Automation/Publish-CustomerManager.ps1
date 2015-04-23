@@ -1,6 +1,8 @@
 ﻿. $PSScriptRoot\Account.ps1
 
-$webSiteName = "CustomerManager"
+$webSiteName = "skrcmanager"
+$prefix = "skrcm"
+
 $projectFilePath = "$PSScriptRoot\..\CustomerManager\CustomerManager.csproj"
 
-& $PSScriptRoot\Publish-WebApplication.ps1 -WebSiteName $webSiteName -ProjectFile $projectFilePath
+& $PSScriptRoot\Publish-WebApplication.ps1 -WebSiteName $webSiteName -ProjectFile $projectFilePath -Prefix $prefix
