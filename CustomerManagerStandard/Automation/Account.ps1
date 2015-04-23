@@ -22,23 +22,26 @@ if(!(Test-Path $PasswordFilePath) )
     throw "PWD File not found"; 
 }
 
-if(!(Test-Path  ".\account.txt") )
+if(!(Test-Path  ($PSScriptRoot + "\account.txt")) )
 {
    throw "File account.txt not found"
 }
 
 
-$username = Get-Content .\account.txt
+$username = Get-Content ($PSScriptRoot + "\account.txt")
 $password =  cat $PasswordFilePath | ConvertTo-SecureString;
 
 Write-Host "Connecting as $username..."
 
 $deploymentCreds = New-Object System.Management.Automation.PSCredential($username, $password);
 
-Add-AzureAccount -Credential $deploymentCreds
+$account = Add-AzureAccount -Credential $deploymentCreds
 
 
-Write-Output "Selecting subscription $subscriptionName ..."
-Select-AzureSubscription -SubscriptionName $subscriptionName
-Set-AzureSubscription -SubscriptionName $subscriptionName
-$subscription = Get-AzureSubscription
+Write-Output "Selecting subscription $SubscriptionName ..."
+$subscription = Get-AzureSubscription -SubscriptionName $SubscriptionName | Where TenantId -eq $account.Tenants
+
+
+Select-AzureSubscription -SubscriptionId $subscription[0].SubscriptionId -Current
+Set-AzureSubscription -SubscriptionId $subscription[0].SubscriptionId
+
