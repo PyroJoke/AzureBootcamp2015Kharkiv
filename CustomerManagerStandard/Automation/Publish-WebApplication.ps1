@@ -17,6 +17,8 @@ $AzCopyPath = [System.IO.Path]::Combine($PSScriptRoot, $AzCopyPath);
 $TemplateFile = [System.IO.Path]::Combine($PSScriptRoot, $TemplateFile);
 $LocalStorageDropPath = [System.IO.Path]::Combine($PSScriptRoot, $LocalStorageDropPath);
 
+if(!(Test-Path -PathType Container $LocalStorageDropPath)) { mkdir $LocalStorageDropPath; }
+
 #Local Drop Cleanup
 Remove-Item ($LocalStorageDropPath + '\*');
 
