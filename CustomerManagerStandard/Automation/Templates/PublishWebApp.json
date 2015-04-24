@@ -22,6 +22,18 @@
         },
         "webSiteName": {
             "type": "string"
+        },
+		"sqlServer": {
+            "type": "string"
+        },
+		"sqlDatabase": {
+            "type": "string"
+        },
+		"sqlUserName": {
+            "type": "string"
+        }.
+		"sqlUserPassword": {
+            "type": "string"
         }
     },
     "resources": [
@@ -31,8 +43,9 @@
 			"type": "Microsoft.Web/sites/extensions",
 			"properties": {
 				"packageUri": "[concat(parameters('dropLocation'), '/', parameters('webSitePackage'), parameters('dropLocationSasToken'))]",
-				"dbType": "None",
-				"connectionString": "",
+				"dbType": "2",
+				"connectionString": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', parameters('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
+				
 				"setParameters": {
 					"IIS Web Application Name": "[parameters('webSiteName')]"
 				}

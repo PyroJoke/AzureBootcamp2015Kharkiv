@@ -1,3 +1,4 @@
 /CustomerManagerStandard/Automation/account.txt
 /CustomerManagerStandard/*.user
 /CustomerManagerStandard/CustomManager.DatabaseLoadApp/publish
+/CustomerManagerStandard/CustomerManager.Database/*.dbmdl
