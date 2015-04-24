@@ -1,0 +1,45 @@
+4/24/2015 10:10:40 PM	This log contains information about the import schema operation into project 'CustomerManager.Database' on computer 'EPUAKHAW0641' by user 'Sergii_Kryshtop'.
+4/24/2015 10:10:40 PM	Import of database schema has started.
+4/24/2015 10:10:44 PM	Gathering logins
+4/24/2015 10:10:46 PM	Gathering database options
+4/24/2015 10:10:46 PM	Gathering users
+4/24/2015 10:10:46 PM	Gathering roles
+4/24/2015 10:10:46 PM	Gathering application roles
+4/24/2015 10:10:46 PM	Gathering role memberships
+4/24/2015 10:10:46 PM	Gathering assemblies
+4/24/2015 10:10:46 PM	Gathering schemas
+4/24/2015 10:10:46 PM	Gathering XML schema collections
+4/24/2015 10:10:46 PM	Gathering user-defined data types
+4/24/2015 10:10:46 PM	Gathering user-defined types
+4/24/2015 10:10:46 PM	Gathering table types
+4/24/2015 10:10:46 PM	Gathering unique keys for table types
+4/24/2015 10:10:46 PM	Gathering primary keys for table types
+4/24/2015 10:10:46 PM	Gathering check constraints for table types
+4/24/2015 10:10:46 PM	Gathering default constraints for table types
+4/24/2015 10:10:46 PM	Gathering functions
+4/24/2015 10:10:46 PM	Gathering aggregates
+4/24/2015 10:10:46 PM	Gathering procedures
+4/24/2015 10:10:46 PM	Gathering tables
+4/24/2015 10:10:46 PM	Gathering primary keys
+4/24/2015 10:10:46 PM	Gathering unique constraints
+4/24/2015 10:10:46 PM	Gathering foreign keys
+4/24/2015 10:10:46 PM	Gathering default constraints
+4/24/2015 10:10:46 PM	Gathering check constraints
+4/24/2015 10:10:46 PM	Gathering views
+4/24/2015 10:10:46 PM	Gathering indexes
+4/24/2015 10:10:46 PM	Gathering statistics
+4/24/2015 10:10:46 PM	Gathering spatial indexes
+4/24/2015 10:10:46 PM	Gathering triggers
+4/24/2015 10:10:46 PM	Gathering ddl triggers
+4/24/2015 10:10:46 PM	Gathering synonyms
+4/24/2015 10:10:46 PM	Gathering defaults
+4/24/2015 10:10:46 PM	Gathering data constraint uddt bindings
+4/24/2015 10:10:46 PM	Gathering rules
+4/24/2015 10:10:46 PM	Gathering data constraint uddt bindings
+4/24/2015 10:10:46 PM	Gathering event notifications
+4/24/2015 10:10:47 PM	Gathering logins
+4/24/2015 10:10:48 PM	Scanning project for duplicate elements
+4/24/2015 10:10:48 PM	Finished duplicate element processing
+4/24/2015 10:10:48 PM	Finished importing database.
+4/24/2015 10:10:48 PM	A summary of the import was saved to the following location: D:\projects\azure\azurebootcamp2015Kharkiv\CustomerManagerStandard\CustomerManager.Database\Import Schema Logs\CustomerManager.Data_20150424071040.log
+4/24/2015 10:10:48 PM	Click Finish to continue...

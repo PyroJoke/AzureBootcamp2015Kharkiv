@@ -1,0 +1,5 @@
+Connection strings
+
+cd site\wwwroot
+$xml = [xml](get-content web.config)
+$xml.configuration.connectionStrings.add.connectionString

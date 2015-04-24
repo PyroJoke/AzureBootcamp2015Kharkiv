@@ -1,0 +1,8 @@
+Connect remotely to your SQL Database
+
+1. open https://www.whatismyip.com/
+2. Copy you public IP
+3. Add another node under the type firewallrules
+4. set start Ip and end IP to your public IP
+4. Run .\New-CustomerManagerEnv.ps1
+5. Connect from SSMS
