@@ -52,7 +52,7 @@ function New-WebDeployPackage
 
 $projectFile = "..\..\CustomerManagerStandard\CustomerManager\CustomerManager.csproj"
 $projectName = (Get-Item $ProjectFile).BaseName
-$packageDirectory = New-WebDeployPackage -ProjectFile $projectFile -PackageDirectory (Resolve-Path -LiteralPath ".\packages")
+$packageDirectory = New-WebDeployPackage -ProjectFile $projectFile -PackageDirectory (Resolve-Path -LiteralPath ".\package")
 
 # Modify SetParameters.xml
 $setParametersFilePath = "{0}\{1}.SetParameters.xml" -f $packageDirectory, $projectName
