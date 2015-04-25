@@ -15,7 +15,8 @@ $TemplateFile = [System.IO.Path]::Combine($PSScriptRoot, $TemplateFile);
 $sqlServerName = $WebSiteName.toLowerInvariant() + "server";
 $sqlDbName = $WebSiteName.toLowerInvariant() + "db";
 $sqlServerAdminLogin = "userDB"
-$plainTextPassword = "P{0}!" -f ([System.Guid]::NewGuid()).Guid.Replace("-", "").Substring(0, 10);
+#$plainTextPassword = "P{0}!" -f ([System.Guid]::NewGuid()).Guid.Replace("-", "").Substring(0, 10);
+$plainTextPassword = "Qwerty11";
 $sqlServerAdminPassword = ConvertTo-SecureString $plainTextPassword -AsPlainText -Force
 
 Switch-AzureMode AzureResourceManager;
